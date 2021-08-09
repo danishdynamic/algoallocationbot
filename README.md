@@ -1,2 +1,3 @@
 # algoallocationbot
-algo allocation bot used for the allocation of funds by using moving average 
+
+The bot used for the allocation of funds by using best moving average.
