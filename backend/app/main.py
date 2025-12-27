@@ -1,4 +1,6 @@
+
 from fastapi import FastAPI
+from app.schemas import AllocationRequest, AllocationResponse
 
 app = FastAPI(
     title="Asset Allocation Bot API",
@@ -10,12 +12,16 @@ app = FastAPI(
 def health_check():
     return {"status": "ok"}
 
+#Open in browser fast api server: API docs → http://127.0.0.1:8000/docs  Health check → http://127.0.0.1:8000/health
 
+@app.post("/allocate", response_model=AllocationResponse)
+def allocate(req: AllocationRequest):
+    # Placeholder logic for now
+    equal_weight = req.capital / len(req.tickers)
 
-#Open in browser fast api server:
+    allocation = {
+        ticker: round(equal_weight, 2)
+        for ticker in req.tickers
+    }
 
-#API docs → http://127.0.0.1:8000/docs
-
-#Health check → http://127.0.0.1:8000/health
-
-     
+    return {"allocation": allocation}
