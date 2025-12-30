@@ -40,6 +40,9 @@ class Backtest:
             yf.download("ACWI", interval="1d")["Adj Close"].dropna()
         )
 
+        if self.history_data.empty or self.ACWI_data.empty:
+            raise ValueError("Failed to load data for symbol or ACWI.")
+
     # ----------------------------
     # Helper methods
     # ----------------------------
