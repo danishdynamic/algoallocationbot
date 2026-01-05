@@ -2,18 +2,30 @@ from fastapi import FastAPI, HTTPException
 from app.schemas import AllocationRequest, AllocationResponse
 from app.assetbot import Backtest
 from fastapi.middleware.cors import CORSMiddleware # to add frontend for cors
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+
+# Initialize the rate limiter
+limiter = Limiter(key_func=get_remote_address)
 
 app = FastAPI( title="Asset Allocation Bot API")
 
 #@app.get("/health")
 #def health_check():
-   # return {"status": "ok"}
+# return {"status": "ok"}
 
 #Open in browser fast api server: API docs → http://127.0.0.1:8000/docs  Health check → http://127.0.0.1:8000/health
+
+#add handler for rate limit exceeded
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
 
 from fastapi import HTTPException
 
 @app.post("/allocate")
+@limiter.limit("10/minute")  # Limit to 10 requests per minute per IP
 async def allocate(req: AllocationRequest):
     if not req.tickers:
         raise HTTPException(status_code=400, detail="No tickers provided")

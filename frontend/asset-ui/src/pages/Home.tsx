@@ -14,7 +14,12 @@ const Home: React.FC = () => {
       const data = await runAllocation("AAPL", 100000); 
       setResultData(data);
     } catch (err) {
-      alert("Failed to fetch backtest: " + err);
+      // check if error is especially from rate limit exceeded
+      if (err instanceof Error && err.message.includes("429")) {
+        alert("Rate limit exceeded. Please try again later.");
+      } else {
+        alert("Failed to fetch backtest: " + err);
+      }
     } finally {
       setLoading(false);
     }
