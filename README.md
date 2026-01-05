@@ -1,18 +1,3 @@
-Absolutely — your project has **grown far beyond a single-file script**, so your README should reflect that evolution clearly and professionally.
-
-Below is a **modern, clean, GitHub-ready README** that:
-
-* Explains **FastAPI backend**
-* Explains **React (TypeScript) frontend**
-* Mentions **rate limiting**
-* Mentions **CSV export**
-* Still respects your **quant / asset-allocation core**
-* Is suitable for reviewers, recruiters, and contributors
-
-You can copy-paste this directly.
-
----
-
 # 💰 Algo Asset Allocation Bot
 
 **End-to-End Asset Allocation Platform with FastAPI + React (TypeScript)**
