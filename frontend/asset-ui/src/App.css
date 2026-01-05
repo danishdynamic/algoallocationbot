@@ -1,0 +1,209 @@
+/* --- Global Layout --- */
+:root {
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --success: #10b981;
+  --danger: #ef4444;
+  --bg-gray: #f8fafc;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, sans-serif;
+  background-color: var(--bg-gray);
+  color: var(--text-main);
+}
+
+/* Ensure the body doesn't have default padding pushing things away */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* The main wrapper that centers everything on the screen */
+.content {
+  display: flex;
+  justify-content: center; /* Horizontal Center */
+  align-items: center;     /* Vertical Center */
+  min-height: 80vh;      /* Full screen height */
+  background-color: #f8fafc;
+  width: 80vw;
+}
+
+/* The card that contains your app content */
+.home-page {
+  background: white;
+  padding: 3rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items inside the card */
+  text-align: center;
+  max-width: 90%;      /* Responsive for mobile */
+}
+
+.h1 {
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  color: #1e293b;
+  font-weight: 700;
+  align-items: center;
+}
+
+.app-header {
+  font-size: 1.0rem;
+  margin-bottom: 1.2rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  text-align: center;
+}
+
+.app-footer {
+  font-size: 0.875rem;
+  margin-top: 2rem;
+  color: var(--text-muted);
+  font-weight: 400; 
+  text-align: center;
+}
+
+
+button {
+  background-color: var(--primary);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+}
+
+button:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  background-color: #cbd5e1;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* --- Result Card Styling --- */
+.result-card {
+  width: 100%;
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 30px;
+  border: 1px solid #e2e8f0;
+}
+
+.result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+}
+
+/* --- Metrics Grid --- */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.metric-box {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+}
+
+.metric-box span {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.metric-box strong {
+  font-size: 1.5rem;
+  color: var(--text-main);
+}
+
+/* --- Table Styling --- */
+.table-container {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+
+th {
+  background-color: #f8fafc;
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-muted);
+  border-bottom: 2px solid #e2e8f0;
+}
+
+td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+tr:hover {
+  background-color: #fcfcfd;
+}
+
+/* --- Transaction Specific Colors --- */
+.order-buy {
+  color: var(--success);
+  font-weight: 700;
+}
+
+.order-sell {
+  color: var(--danger);
+  font-weight: 700;
+}
+
+.label-text {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  background: #f1f5f9;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* --- Loading Animation --- */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.loading-text {
+  animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  color: var(--primary);
+  font-weight: 600;
+}
