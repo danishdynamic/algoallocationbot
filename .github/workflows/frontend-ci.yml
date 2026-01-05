@@ -1,0 +1,32 @@
+name: Frontend CI (React)
+
+on:
+  push:
+    paths:
+      - "frontend/**"
+  pull_request:
+    paths:
+      - "frontend/**"
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: Install dependencies
+        run: |
+          cd frontend/asset-ui
+          npm install
+
+      - name: Build frontend
+        run: |
+          cd frontend/asset-ui
+          npm run build
