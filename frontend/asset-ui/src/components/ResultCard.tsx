@@ -1,5 +1,6 @@
 import React from 'react';
 import type { AllocationResponse } from '../services/api';
+import ExportButton from './ExportButton';
 
 // The 'result' prop must match the interface you defined in api.ts
 interface ResultCardProps {
@@ -31,6 +32,11 @@ const ResultCard: React.FC<ResultCardProps> = ({ result }) => {
           <span>Final Balance</span>
           <strong>${final_account_value.toLocaleString(undefined, { minimumFractionDigits: 2 })}</strong>
         </div>
+      </div>
+
+      <div className="result-header">
+        <h2>Results for {result.symbol}</h2>
+        <ExportButton transactions={result.transactions} symbol={result.symbol} />
       </div>
 
       {/* 2. Transaction Table Section */}
