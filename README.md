@@ -1,284 +1,293 @@
-# 💰 Asset Allocation Bot
+Absolutely — your project has **grown far beyond a single-file script**, so your README should reflect that evolution clearly and professionally.
 
-### *Single-File Python Portfolio Optimizer*
+Below is a **modern, clean, GitHub-ready README** that:
 
-This project contains a Python script designed to perform automated
-**asset allocation** and **portfolio optimization** using principles
-from Modern Portfolio Theory (MPT).\
-The tool computes optimal portfolio weights based on user-defined
-criteria such as:
+* Explains **FastAPI backend**
+* Explains **React (TypeScript) frontend**
+* Mentions **rate limiting**
+* Mentions **CSV export**
+* Still respects your **quant / asset-allocation core**
+* Is suitable for reviewers, recruiters, and contributors
 
--   Maximizing the **Sharpe Ratio**
--   Minimizing **volatility**
--   Achieving a **target return**
+You can copy-paste this directly.
 
-All functionality is contained in a **single Python file**.
+---
 
-------------------------------------------------------------------------
+# 💰 Algo Asset Allocation Bot
+
+**End-to-End Asset Allocation Platform with FastAPI + React (TypeScript)**
+
+This project is a **full-stack quantitative asset allocation system** that combines:
+
+* 📈 **Python-based portfolio & momentum backtesting**
+* ⚙️ **FastAPI backend API**
+* 🖥️ **React + TypeScript frontend**
+* 🚦 **Rate-limited endpoints**
+* 📤 **CSV export for results**
+* 📊 Extensible architecture for future models
+
+The system allows users to run asset allocation strategies via a REST API and visualize results through a modern web UI.
+
+---
+
+## 🧠 Core Concepts
+
+* Momentum-based asset allocation
+* Moving-average crossover strategies
+* Portfolio performance metrics (Sharpe, volatility)
+* Separation of **quant logic** from **API** and **UI**
+
+---
 
 ## ✨ Features
 
-### **Data Fetching**
+### 🔧 Backend (FastAPI)
 
-Retrieves historical price data for a configurable list of tickers using
-`yfinance`.
+* REST API for running allocation/backtests
+* Modular Python architecture
+* Rate-limited endpoints (API abuse protection)
+* CSV export of transactions & portfolio results
+* Clean request/response schemas (Pydantic)
+* Ready for database integration (PostgreSQL)
 
-### **Portfolio Optimization**
+### 🖥️ Frontend (React + TypeScript)
 
-Uses Modern Portfolio Theory:
+* Modern Vite-based React app
+* Component-based UI (Header, Footer, Pages)
+* API service abstraction
+* Extensible for charts & dashboards
+* Clean separation of concerns
 
-Expected Returns:
+### 📊 Quant Engine
 
-$$
-\mu = \mathbb{E}[r]
-$$
+* Historical price data via `yfinance`
+* Momentum strategy with:
 
-Covariance Matrix:
+  * Short/long moving averages
+  * Market regime filter (ACWI)
+* Backtest engine with:
 
-$$
-\Sigma = \text{Cov}(r)
-$$
+  * Transaction tracking
+  * Sharpe ratio
+  * Volatility
+* CSV export for offline analysis
 
-Portfolio Return:
+---
 
-$$
-R_p = w^\top \mu
-$$
+## 🏗️ Project Structure
 
-Portfolio Volatility:
-
-$$
-\sigma_p = \sqrt{w^\top \Sigma w}
-$$
-
-
-
-### **Sharpe Ratio Maximization**
-
-Finds:
-
-$$
-\max_w \frac{R_p - R_f}{\sigma_p}
-$$
-
-### **Minimum Variance Portfolio**
-
-Solves:
-
-$$
-\min_w \sigma_p
-$$
-
-### **Visualization**
-
-Matplotlib plots for the efficient frontier.
-
-### **Single-File Simplicity**
-
-All logic lives inside one file: `asset_allocator.py`.
-
-------------------------------------------------------------------------
-
-## 🛠️ Prerequisites
-
-Python **3.8+** required.
-
-Install dependencies:
-
-``` bash
-pip install pandas numpy scipy yfinance matplotlib
+```
+algoallocationbot/
+│
+├── backend/
+│   ├── app/
+│   │   ├── main.py            # FastAPI entry point
+│   │   ├── assetbot.py        # Core backtest & allocation logic
+│   │   ├── schemas.py         # Request/response models
+│   │   ├── rate_limit.py      # API rate limiting
+│   │   └── __init__.py
+│   └── requirements.txt
+│
+├── frontend/
+│   └── asset-ui/
+│       ├── src/
+│       │   ├── components/    # Header, Footer, UI components
+│       │   ├── pages/         # Home, future views
+│       │   ├── services/      # API calls
+│       │   ├── App.tsx
+│       │   └── main.tsx
+│       └── package.json
+│
+├── README.md
+└── .gitignore
 ```
 
-  Library      Purpose
-  ------------ ---------------------------------
-  pandas       Time series handling
-  numpy        Numerical operations
-  scipy        Optimization routines
-  yfinance     Fetching market data
-  matplotlib   Plotting the Efficient Frontier
+---
 
-------------------------------------------------------------------------
+## 🛠️ Tech Stack
 
-## 🚀 Installation & Setup
+### Backend
 
-### **1. Clone the Repository**
+* Python 3.9+
+* FastAPI
+* Pydantic
+* yfinance
+* pandas / numpy
+* Uvicorn
 
-``` bash
-git clone https://your-repo-link.git
-cd asset-allocation-bot
+### Frontend
+
+* React
+* TypeScript
+* Vite
+* Axios / Fetch API
+
+### Data
+
+* Yahoo Finance (market data)
+* CSV exports
+* PostgreSQL (planned)
+
+---
+
+## 🚀 Getting Started
+
+### 1️⃣ Clone the Repository
+
+```bash
+git clone https://github.com/your-username/algoallocationbot.git
+cd algoallocationbot
 ```
 
-### **2. Install Dependencies**
+---
 
-``` bash
-pip install pandas numpy scipy yfinance matplotlib
+## ⚙️ Backend Setup (FastAPI)
+
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate   # Windows: venv\Scripts\activate
+pip install -r requirements.txt
 ```
 
-------------------------------------------------------------------------
+Start the API:
 
-## 📖 Usage
-
-### **1. Configure the Script**
-
-Open `asset_allocator.py` and adjust:
-
-  ----------------------------------------------------------------------------------------
-  Variable           Description                             Default Example
-  ------------------ --------------------------------------- -----------------------------
-  `TICKERS`          Asset symbols                           `['SPY','QQQ','GLD','BND']`
-
-  `START_DATE`       Historical data start                   `'2018-01-01'`
-
-  `END_DATE`         End date                                `datetime.now()`
-
-  `RISK_FREE_RATE`   Risk-free rate (R_f)                    `0.02`
-  ----------------------------------------------------------------------------------------
-
-------------------------------------------------------------------------
-
-### **2. Run the Bot**
-
-``` bash
-python asset_allocator.py
+```bash
+uvicorn app.main:app --reload
 ```
 
-------------------------------------------------------------------------
+API docs available at:
 
-## 📊 Reviewing Output
+```
+http://localhost:8000/docs
+```
 
-The script prints:
+---
 
-### **Maximum Sharpe Ratio Portfolio**
+## 🖥️ Frontend Setup (React + TypeScript)
 
-- Expected Return
+```bash
+cd frontend/asset-ui
+npm install
+npm run dev
+```
 
-$$
-R_p = w^\top \mu
-$$
+Frontend runs at:
 
-- Volatility
+```
+http://localhost:5173
+```
 
-$$
-\sigma_p = \sqrt{w^\top \Sigma w}
-$$
+---
 
-- Sharpe Ratio
-  
-$$
-S = \frac{R_p - R_f}{\sigma_p}
-$$
+## 🔌 API Overview
 
-- Optimal weights
+### POST `/allocate`
 
-$$
-w^\*
-$$
+Runs an asset allocation/backtest.
 
+**Request**
 
+```json
+{
+  "symbol": "AAPL",
+  "initial_money": 100000
+}
+```
 
-### **Minimum Volatility Portfolio**
+**Response**
 
--   Expected Return
--   Volatility
--   Sharpe Ratio
--   Optimal weights
+```json
+{
+  "symbol": "AAPL",
+  "sharpe": 1.42,
+  "volatility": 0.18,
+  "final_account_value": 132450,
+  "transactions": {...}
+}
+```
 
-If plotting is enabled, the **Efficient Frontier** will be displayed.
+---
 
-------------------------------------------------------------------------
+## 📤 CSV Export
 
-## 📁 File Structure
+* Portfolio transactions can be exported as CSV
+* Useful for:
 
-    asset-allocation-bot/
-    ├── asset_allocator.py
-    └── README.md
+  * Excel analysis
+  * Research notebooks
+  * Auditing strategies
 
-------------------------------------------------------------------------
+---
 
-## 💡 Customization
+## 🚦 Rate Limiting
 
-### **Change Tickers**
+* API endpoints are rate-limited
+* Prevents abuse and accidental overload
+* Ready for production hardening
 
-Modify `TICKERS` to analyze any set of assets.
+---
 
-### **Adjust Time Horizon**
+## 🧪 Development Workflow
 
-Update `START_DATE` for shorter or longer historical windows.
+* Feature branches (`feature/ui-fastapi-react`)
+* Pull Requests with code reviews
+* Clean separation between:
 
-### **Add Constraints**
+  * Quant logic
+  * API layer
+  * UI layer
 
-Modify the `scipy.optimize.minimize` call to include constraints such
-as:
+---
 
-$$
-w_i \le 0.30
-$$
+## 🧩 Future Enhancements
 
-or non-negativity constraints:
+### 🔮 Backend
 
-$$
-w_i \ge 0
-$$
+* PostgreSQL integration
+* Multi-asset portfolios
+* User authentication
+* Async backtests
+* Caching (Redis)
+
+### 📊 Frontend
+
+* Interactive charts (Recharts / Plotly)
+* Portfolio dashboards
+* CSV download button
+* Strategy parameter controls
+
+### 📈 Quant Models
+
+* Risk parity
+* CVaR optimization
+* Black–Litterman
+* Reinforcement learning allocation
 
 ---
 
 ## 🤝 Contributions
 
-Contributions are welcome! Whether you want to fix a bug, improve performance, add new optimization methods, or enhance documentation, your help is appreciated. To contribute:
+Contributions are welcome!
 
-1. Fork the repository  
-2. Create a new branch for your feature or fix  
-3. Commit your changes with clear messages  
-4. Submit a pull request describing what you changed and why  
-
-Please ensure your modifications follow best practices and maintain the simplicity of the single-file architecture.
+1. Fork the repo
+2. Create a feature branch
+3. Commit with clear messages
+4. Open a Pull Request with context
 
 ---
 
-## 🚀 Future Improvements
+## 📜 License
 
-Several enhancements can make this project more powerful and flexible:
-
-### **1. More Optimization Models**
-- Add Conditional Value at Risk (CVaR) optimization  
-- Add Black–Litterman allocation  
-- Add risk-parity portfolio construction  
-- Add reinforcement learning–based portfolio allocation models  
-
-### **2. Enhanced Constraints**
-- Sector/country allocation limits  
-- Maximum/minimum asset exposure  
-- Leverage and short-selling options  
-
-### **3. Improved Visualization**
-- Interactive charts using Plotly  
-- Rolling return/volatility charts  
-- Risk contribution bar plots  
-
-### **4. Performance Enhancements**
-- Caching of downloaded data  
-- Parallelized Monte Carlo simulations  
-- Faster optimization using NumPy or JAX  
-
-### **5. Better User Interface**
-- Command-line flags for custom inputs  
-- Config file (YAML/JSON) for portfolio settings  
-- Optional minimal GUI using Streamlit  
-
-### **6. More Robust Error Handling**
-- Graceful handling of missing ticker data  
-- Logging system for debugging  
-- Automatic retries for API rate limits  
+MIT License — free to use, modify, and distribute.
 
 ---
 
-## ⚠️ Disclaimer
+If you want, next I can:
 
-This project is intended **for educational and research purposes only**.  
-It has **not been tested in real-world trading environments**, and the results should **not** be considered financial advice.  
-Market conditions, model assumptions, and data sources can significantly impact performance.
-
-Always perform your own due diligence and consult a licensed financial professional before making investment decisions.
-
----
+* ✨ Add **badges** (FastAPI, React, License)
+* 📊 Add **architecture diagram**
+* 🧪 Add **example API calls**
+* 📝 Shorten it for recruiters
+* 🧠 Make a **technical deep-dive README**
 
