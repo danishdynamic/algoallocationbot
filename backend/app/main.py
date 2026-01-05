@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException , Request
-from app.schemas import AllocationRequest, AllocationResponse
-from app.assetbot import Backtest
+from .schemas import AllocationRequest, AllocationResponse
+from .assetbot import Backtest
 from fastapi.middleware.cors import CORSMiddleware # to add frontend for cors
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
