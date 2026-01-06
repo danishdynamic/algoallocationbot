@@ -1,3 +1,10 @@
+
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.95.2-green)](https://fastapi.tiangolo.com/)
+[![React](https://img.shields.io/badge/React-18.2.0-blue)](https://reactjs.org/)
+[![Docker](https://img.shields.io/badge/Docker-20.10.17-blue)](https://www.docker.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue)](https://www.postgresql.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 # 💰 Algo Asset Allocation Bot
 
 **End-to-End Asset Allocation Platform with FastAPI + React (TypeScript)**
