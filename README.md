@@ -40,7 +40,35 @@ The system allows users to run asset allocation strategies via a REST API and vi
 * Rate-limited endpoints (API abuse protection)
 * CSV export of transactions & portfolio results
 * Clean request/response schemas (Pydantic)
-* Ready for database integration (PostgreSQL)
+
+### Database integration (PostgreSQL) with docker compose
+
+📊 Database SchemaThe application uses PostgreSQL to persist backtest results. The schema is automatically managed by SQLAlchemy.
+
+### 📊 Database Records Example
+
+| id | symbol | sharpe | volatility | final_value | created_at |
+|:---|:-------|:-------|:-----------|:------------|:-----------|
+| 1 | GOOGL | 2.37 | 0.251 | $178,033.04 | 2026-01-07 10:00:00 |
+| 2 | NVDA | 1.04 | 0.228 | $125,781.71 | 2026-01-07 10:05:30 |
+| 3 | MSFT | 0.56 | 0.120 | $108,203.76 | 2026-01-07 10:10:15 |
+
+Getting Started
+
+1. Environment SetupCreate a .env file in the root directory.
+   
+2. Code snippetDATABASE_URL
+   
+```bash
+postgresql://postgres:postgres@db:5432/postgres
+```
+   
+3. Run with DockerThis will launch the Postgres database, the FastAPI backend, and the React frontend simultaneously: 
+   
+```bash
+docker-compose up --build 
+```
+   
 
 ### 🖥️ Frontend (React + TypeScript)
 
@@ -77,6 +105,8 @@ algoallocationbot/
 │   │   ├── assetbot.py        # Core backtest & allocation logic
 │   │   ├── schemas.py         # Request/response models
 │   │   ├── rate_limit.py      # API rate limiting
+|   |   |── database.py        # database
+|   |   |── models.py          # for database models 
 │   │   └── __init__.py
 │   └── requirements.txt
 │
@@ -91,6 +121,7 @@ algoallocationbot/
 │       └── package.json
 │
 ├── README.md
+|── docker-compose.yml         #postgres database in docker
 └── .gitignore
 ```
 
@@ -118,7 +149,7 @@ algoallocationbot/
 
 * Yahoo Finance (market data)
 * CSV exports
-* PostgreSQL (planned)
+* PostgreSQL 
 
 ---
 
