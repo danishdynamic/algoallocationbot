@@ -77,6 +77,7 @@ docker-compose up --build
 * API service abstraction
 * Extensible for charts & dashboards
 * Clean separation of concerns
+* Recharts to visualize backtest
 
 ### 📊 Quant Engine
 
@@ -203,6 +204,20 @@ http://localhost:5173
 
 ---
 
+## 📈 Charts Overview
+
+This project uses Recharts to visualize historical stock prices and backtest results.Recharts is a React-based charting library built on SVG. It is lightweight, composable, and works well with responsive dashboards.
+
+```bash
+<ResponsiveContainer width="100%" aspect={3}>
+  <LineChart data={data}>
+    <Line dataKey="price" />
+  </LineChart>
+</ResponsiveContainer>
+```
+
+
+
 ## 🔌 API Overview
 
 ### POST `/allocate`
@@ -275,9 +290,6 @@ Runs an asset allocation/backtest.
 
 ### 📊 Frontend
 
-* Interactive charts (Recharts / Plotly)
-* Portfolio dashboards
-* CSV download button
 * Strategy parameter controls
 
 ### 📈 Quant Models

@@ -163,6 +163,13 @@ class Backtest:
 
     def run(self) -> Dict[str, Any]:
         self.backtest_momentum()
+        
+        # Create a list of objects for the chart: [{date: "2025-01-01", price: 150.00}, ...]
+        chart_data = [
+            {"date": date.strftime('%Y-%m-%d'), "price": float(price)}
+            for date, price in self.history_data.items()
+        ]
+
         return {
             "symbol": self.symbol,
             "initial_money": float(self.initial_money),
@@ -170,6 +177,7 @@ class Backtest:
             "volatility": float(self.volatility),
             "final_account_value": float(self.account_value[-1]),
             "transactions": self.transaction_record,
+            "history": chart_data #charts
         }
     
    

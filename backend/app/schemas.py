@@ -1,6 +1,10 @@
 from pydantic import BaseModel
 from typing import Dict, List, Any, Optional
 
+class PricePoint(BaseModel):
+    date: str
+    price: float
+
 
 class BacktestResult(BaseModel):
     symbol: str
@@ -9,6 +13,7 @@ class BacktestResult(BaseModel):
     volatility: float
     final_account_value: float
     transactions: Dict[str, List[Any]]
+    history: List[PricePoint]   #charts
 
 
 class AllocationResponse(BaseModel):

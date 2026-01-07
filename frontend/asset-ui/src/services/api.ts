@@ -11,6 +11,11 @@ export interface TransactionData {
   label: string[];
 }
 
+export interface PricePoint {
+  date: string;
+  price: number;
+}
+
 export interface BacktestResult {
   symbol: string;
   initial_money: number;
@@ -18,6 +23,7 @@ export interface BacktestResult {
   volatility: number;
   final_account_value: number;
   transactions: TransactionData;
+  history: PricePoint[];
 }
 
 export interface AllocationResponse {

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { runAllocation} from '../services/api';
+import { runAllocation } from '../services/api';
 import type { AllocationResponse, BacktestResult } from '../services/api';
 import ResultCard from '../components/ResultCard';
 import TransactionsTable from '../components/TransactionsTable';
 import AllocationForm from '../components/AllocationForm';
+import { StockChart } from '../components/StockChart';
 
 const Home: React.FC = () => {
   const [resultData, setResultData] = useState<AllocationResponse | null>(null);
@@ -12,44 +13,40 @@ const Home: React.FC = () => {
   const handleStartBacktest = async (tickers: string[], capital: number) => {
     setLoading(true);
     setResultData(null);
-
     try {
-      // Ensure these match your API expectations
-      const data = await runAllocation(tickers, capital); 
+      const data = await runAllocation(tickers, capital);
       setResultData(data);
     } catch (err) {
-      // check if error is especially from rate limit exceeded
-      if (err instanceof Error && err.message.includes("429")) {
-        alert("Rate limit exceeded. Please try again later.");
-      } else {
-        alert("Failed to fetch backtest: " + err);
-      }
+      alert("Error: " + err);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="home-page">
+    <div className="home-page max-w-5xl mx-auto p-6 space-y-10">
       <AllocationForm onSubmit={handleStartBacktest} loading={loading} />
 
-      {/* This conditional (resultData && ...) is crucial. 
-          It ensures ResultCard only renders when resultData is NOT null,
-          satisfying the TypeScript requirement for the 'result' prop.
-          {resultData && <ResultCard result={resultData} />} for one stock 
-      */}
-      {resultData?.results && Object.entries(resultData.results).map(([ticker, asset] : [string, BacktestResult]) => (
-        <div key={ticker} className="mb-6">
-          {/* Display a Heading for each stock */}
-          <h2 className="text-2xl font-bold mb-2 text-blue-600">{asset.symbol} {resultData.ticker ? `(Portfolio: ${resultData.ticker})` : ''}</h2>
+      {resultData?.results && Object.entries(resultData.results).map(([ticker, asset]: [string, BacktestResult]) => (
+        <div key={ticker} className="border-t pt-10 first:border-t-0">
           
-          {/* Pass the specific stock data to the ResultCard */}
-          <ResultCard result={asset} />
-          
-          {/* Pass the specific stock transactions to your Table */}
-          <div className="mt-4">
+          {/* Title Area */}
+          <div className="mb-6">
+            <h2 className="text-3xl font-bold">{asset.symbol}</h2>
+            <p className="text-gray-500">Backtest Results Overview</p>
+          </div>
+
+          {/* Chart Section - High importance, full width */}
+          <div className="mb-8 block">
+            <StockChart data={asset.history} />
+          </div>
+
+          {/* Performance Data Section */}
+          <div className="space-y-8">
+            <ResultCard result={asset} />
             <TransactionsTable transactions={asset.transactions} />
           </div>
+
         </div>
       ))}
     </div>
