@@ -1,0 +1,28 @@
+
+services:
+  db:
+    image: postgres:15
+    container_name: assetbot-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: assetbot
+      POSTGRES_PASSWORD: assetbot
+      POSTGRES_DB: assetbot
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./backend
+    container_name: assetbot-backend
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql+psycopg2://assetbot:assetbot@db:5432/assetbot
+    ports:
+      - "8000:8000"
+
+volumes:
+  postgres_data:
+    driver: local

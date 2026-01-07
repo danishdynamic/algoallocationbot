@@ -1,15 +1,15 @@
 import React from 'react';
-import type { AllocationResponse } from '../services/api';
+import type { BacktestResult } from '../services/api';
 import ExportButton from './ExportButton';
 
 // The 'result' prop must match the interface you defined in api.ts
 interface ResultCardProps {
-  result: AllocationResponse;
+  result: BacktestResult;           /* we used allocation resposne for one symbol*/
 }
 
 const ResultCard: React.FC<ResultCardProps> = ({ result }) => {
   // Destructure for cleaner access
-  const { transactions, symbol, sharpe, volatility, final_account_value } = result;
+  const { transactions ,symbol, sharpe, volatility, final_account_value } = result;
 
   return (
     <div className="result-card">

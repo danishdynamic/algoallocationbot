@@ -2,23 +2,28 @@ import React, { useState } from "react";
 
 // 1. Define what props this component accepts
 interface AllocationFormProps {
-  onSubmit: (ticker: string, capital: number) => void;
+  onSubmit: (ticker: string[], capital: number) => void;
   loading: boolean;
 }
 
 export default function AllocationForm({ onSubmit, loading }: AllocationFormProps) {
-  const [ticker, setTicker] = useState<string>("");
+  const [tickerInput, setTickerInput] = useState<string>("");
   const [capital, setCapital] = useState<string>("");
 
   // 2. Type the event as React.FormEvent
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Logic: Convert ticker to uppercase and capital to a number before sending
-    if (ticker && capital) {
-      onSubmit(ticker.toUpperCase(), Number(capital));
-    }
-  };
+      
+    if (tickerInput && capital) {
+        // Logic: Split by comma, trim whitespace, and filter out empty strings
+        const tickerArray = tickerInput
+          .split(",")
+          .map((t) => t.trim().toUpperCase())
+          .filter((t) => t !== "");
+
+        onSubmit(tickerArray, Number(capital));
+      }
+    };
 
   return (
     <form onSubmit={handleSubmit} className="allocation-form">
@@ -27,10 +32,10 @@ export default function AllocationForm({ onSubmit, loading }: AllocationFormProp
         <input
           type="text"
           id="ticker"
-          value={ticker}
+          value={tickerInput}
           // TypeScript knows 'e' is a ChangeEvent here automatically
-          onChange={(e) => setTicker(e.target.value)}
-          placeholder="e.g. AAPL"
+          onChange={(e) => setTickerInput(e.target.value)}
+          placeholder="e.g. AAPL,MSFT,NVDA"
           required
         />
       </div>
@@ -45,7 +50,7 @@ export default function AllocationForm({ onSubmit, loading }: AllocationFormProp
         />
       </div>
       <button type="submit" disabled={loading}>
-        {loading ? "Processing..." : "Allocate"}
+        {loading ? "Processing..." : "Run Multi Asset Backtest"}
       </button>
     </form>
   );

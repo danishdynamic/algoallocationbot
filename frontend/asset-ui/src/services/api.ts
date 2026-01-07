@@ -5,33 +5,44 @@ export interface TransactionData {
   date: string[];
   order: string[];
   price: number[];
+  symbol: string[];
   value: number[];
   fee: number[];
   label: string[];
 }
 
-// 2. Define the main API response
-export interface AllocationResponse {
-  symbol : string;
-  ticker: string;
-  shares: number;
-  remaining_capital: number;
-  status: string;
+export interface BacktestResult {
+  symbol: string;
+  initial_money: number;
   sharpe: number;
   volatility: number;
   final_account_value: number;
-  transactions: TransactionData; 
+  transactions: TransactionData;
 }
 
+export interface AllocationResponse {
+  // Global metadata (if your backend sends it)
+  ticker: string; 
+  status?: string;
+  
+  // The actual data for AAPL, MSFT, etc.
+  results: { 
+    [key: string]: BacktestResult 
+  };
+  
+  error: string | null;
+}
+
+
 export async function runAllocation(
-  ticker: string, 
+  tickers: string[], //Changed from ticker string to string []
   capital: number
 ): Promise<AllocationResponse> {
   const response = await fetch(`${API_URL}/allocate`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ 
-      tickers: [ticker], // Wrap in an array to match List[str]
+      tickers: tickers,   // Wrap in an array to match List[str] for one such as ticker[]
       capital: capital    // Ensure key name matches 'capital'
     }),
   });
@@ -43,3 +54,4 @@ export async function runAllocation(
 
   return response.json() as Promise<AllocationResponse>;
 }
+

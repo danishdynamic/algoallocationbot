@@ -9,11 +9,13 @@ import './App.css';
 const App: React.FC = () => {
   return (
     <>
+     < div className="app-layout">
       <Header />
-      <div className="content">
+      <main className="content">
         <Home />
-      </div>
+      </main>
       <Footer />
+    </div>
     </>
   );
 }

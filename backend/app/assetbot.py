@@ -3,7 +3,21 @@
 import pandas as pd
 import numpy as np
 import yfinance as yf
-from typing import Dict, List, Any
+from typing import Dict, Any
+from .models import BacktestRun, MarketPrice
+from sqlalchemy.orm import Session
+
+def save_backtest_run(db, result: Dict[str, Any]):
+    db.add(
+        BacktestRun(
+            symbol=result["symbol"],
+            sharpe=result["sharpe"],
+            volatility=result["volatility"],
+            final_value=result["final_account_value"]
+        )
+    )
+    db.commit()
+
 
 class Backtest:
     def __init__(self, symbol: str, initial_money: float = 100000):
@@ -36,16 +50,29 @@ class Backtest:
         raw_history = yf.download(self.symbol, period="2y", auto_adjust=True)
         raw_acwi = yf.download("ACWI", period="2y", auto_adjust=True)
 
+        # REVISED CLEANING LOGIC:
         if isinstance(raw_history.columns, pd.MultiIndex):
+            # If there's only one ticker, it might still be MultiIndex
             raw_history.columns = raw_history.columns.get_level_values(0)
         if isinstance(raw_acwi.columns, pd.MultiIndex):
             raw_acwi.columns = raw_acwi.columns.get_level_values(0)
 
-        self.history_data = raw_history["Close"].dropna()
-        self.ACWI_data = raw_acwi["Close"].dropna()
+        # Ensure we are getting a Series, not a DataFrame with one column
+        self.history_data = raw_history["Close"]
+        if isinstance(self.history_data, pd.DataFrame):
+            self.history_data = self.history_data.iloc[:, 0]
+        
+        self.ACWI_data = raw_acwi["Close"]
+        if isinstance(self.ACWI_data, pd.DataFrame):
+            self.ACWI_data = self.ACWI_data.iloc[:, 0]
 
-        if self.history_data.empty or self.ACWI_data.empty:
-            raise ValueError(f"Failed to load data for {self.symbol} or ACWI.")
+        self.history_data = self.history_data.dropna()
+        self.ACWI_data = self.ACWI_data.dropna()
+
+        if self.history_data.empty:
+            raise ValueError(f"No price data found for ticker: {self.symbol}")
+        if self.ACWI_data.empty:
+            raise ValueError("No price data found for benchmark: ACWI")
 
     def _get_last_price(self, date):
         return float(self.history_data[self.history_data.index <= date].iloc[-1])
@@ -89,7 +116,19 @@ class Backtest:
         self.account_balance.append(new_total_val - new_pos_val)
         self.share.append(new_pos_val / price)
 
-    def backtest_momentum(self, MA_n1=50, MA_n2=200, start_date="2024-01-01", end_date="2025-01-01"):
+    def save_prices(db, symbol: str, prices: pd.Series):
+        for date, price in prices.items():
+            db.add(
+                MarketPrice(
+                    symbol=symbol,
+                    date=date,
+                    close_price=float(price)
+                )
+            )
+        db.commit()
+
+
+    def backtest_momentum(self, MA_n1=21, MA_n2=50, start_date="2025-01-01", end_date="2026-01-01"):
         self._load_data()
         
         date_index = self.history_data.index[
@@ -132,3 +171,5 @@ class Backtest:
             "final_account_value": float(self.account_value[-1]),
             "transactions": self.transaction_record,
         }
+    
+   

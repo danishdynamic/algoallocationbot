@@ -21,12 +21,11 @@ export default function TransactionsTable({ transactions }: TransactionsTablePro
     <table >
       <thead>
         <tr>
-          <th>Date</th>
-          <th>Order</th>
-          <th>Price</th>
-          <th>Value</th>
-          <th>Fee</th>
-          <th>Label</th>
+          {["Date", "Order", "Price", "Value", "Fee", "Label"].map((head) => (
+            <th key={head} className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+              {head}
+            </th>
+          ))}
         </tr>
       </thead>
       <tbody>
@@ -34,10 +33,10 @@ export default function TransactionsTable({ transactions }: TransactionsTablePro
         {transactions.date.map((_, i) => (
           <tr key={i}>
             <td>{transactions.date[i]}</td>
-            <td>{transactions.order[i]}</td>
-            <td>{transactions.price[i]}</td>
-            <td>{transactions.value[i]}</td>
-            <td>{transactions.fee[i]}</td>
+            <td>{transactions.order[i].toUpperCase()}</td>
+            <td>{transactions.price[i].toFixed(2)}</td>
+            <td>{transactions.value[i].toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+            <td>{transactions.fee[i].toFixed(2)}</td>
             <td>{transactions.label[i]}</td>
           </tr>
         ))}
